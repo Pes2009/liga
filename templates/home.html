@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block head_title %} Ekstraklasa {% endblock %}
+      <style>
+      {% block style %}
+
+
+      .text-align-center{
+  text-align: center;
+  padding-top: 10px;
+}
+
+
+      {% endblock %}
+      </style>
+
+
+
+  <body>
+
+
+
+
+
+
+   {% block jumbotron_content %}
+ 
+<div class="container ">
+
+     <div class=".col-md-offset-4 .col-md-4 .col-md-offset-4">
+
+<a href="../pogon/" type="button" class="btn btn-primary btn-lg ">Pogon Szczecin</a>
+<a href="../legia/" type="button" class="btn btn-primary btn-lg ">Legia Warszawa</a>
+<a href="../lech/" type="button" class="btn btn-primary btn-lg ">Lech Poznań </a>
+<a href="../lechia/" type="button" class="btn btn-primary btn-lg ">Lechia Gdańsk </a>
+<a href="../slask/" type="button" class="btn btn-primary btn-lg ">Śląsk Wrocław </a>
+<a href="../jagiellonia/" type="button" class="btn btn-primary btn-lg ">Jagiellonia Białystok </a>
+
+
+        {% endblock %}
+
+
+
+
+</body>

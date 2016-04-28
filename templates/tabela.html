@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block head_title %} Ekstraklasa {% endblock %}
+      <style>
+      {% block style %}
+
+
+      .text-align-center{
+  text-align: center;
+  padding-top: 10px;
+}
+
+
+      {% endblock %}
+      </style>
+
+
+
+  <body>
+
+
+
+
+
+
+   {% block jumbotron_content %}
+ 
+
+<div class="container ">
+<div class="jumbotron">
+
+
+<h2 class="text-align-center" style="margin-bottom: 50px;">Tabela</h2>
+      {% if queryset %}
+<table class="table table-striped">
+        <tr>
+    <td>Miejsce</td>
+    <td>Nazwa drużyny</td>
+    <td>punkty</td>
+    <td>zwycięstwa</td>
+    <td>remisy</td>
+    <td>porażki</td>
+  </tr>
+
+        {% for instance in  queryset %}
+
+       <tr><td>{{ forloop.counter }}</td><td>{{ instance.Nazwa }}</td><td>{{ instance.punkty }}</td><td>{{ instance.zwyciestwa }}</td>
+       <td>{{ instance.remisy }}</td><td>{{ instance.porazki }}</td></tr>
+
+
+
+
+
+
+
+        {% endfor %}
+        </table>
+
+{% endif %}
+
+
+     {% if request.user.is_authenticated %}
+
+      <div class="row">
+     <div class="col-md-6">
+
+<form method="POST" action="">{% csrf_token %}
+{{ form|crispy }}
+
+
+<input class="btn btn-primary btn-lg btn-block" type="submit" value="Dodaj Klub">
+
+</form>
+</div>
+</div>
+ <a href="../" type="button" class="btn btn-primary btn-md " style="float: right; margin-top: 200px;">Back</a>
+
+{% endif %}
+
+        {% endblock %}
+
+</div>
+</div>
+
+
+</body>
