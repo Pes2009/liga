@@ -2,7 +2,6 @@
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 
-{% block head_title %} Ekstraklasa {% endblock %}
       <style>
       {% block style %}
 
@@ -20,12 +19,15 @@
   <body>
 
 
+
+
+
    {% block jumbotron_content %}
 
+   <title>Cracovia Kraków</title>
 
-      <title>Pogoń Szczecin</title>
 
-
+   
  {% if queryset %}
  {% for instance in  queryset %}
   {% if stadion %}
@@ -39,18 +41,19 @@
 <div class="col-md-3">
 
 
- <img src= "{% static 'img/pogon_herb.png' %}" class="img-responsive" alt="Cinque Terre" width="200" height="250"> 
+ <img src= "{% static 'img/cracovia_herb.jpg' %}" class="img-responsive" alt="Cinque Terre" width="200" height="250"> 
 </div>
+
 
 
  <div class="row">     
 <div class="col-md-6">
 <div class="text-align-center">
-<h2><strong>MORSKI KLUB SPORTOWY</strong></h2>
+<h2><strong>PASY</strong></h2>
 <h3><strong> {{ instance.Nazwa }}</strong></h3>
-<h3> Data założenia:<strong> 21 kwietnia 1948</strong></h3>
-<h3> Barwy:<strong> Granatowo Bordowe</strong></h3>
-<h2>strona oficjalna:<strong> <a href="http://pogonszczecin.pl">Pogon Szczecin</a></strong></h2>
+<h3> Data założenia:<strong> 13 czerwca  1906</strong></h3>
+<h3> Barwy:<strong> Biało Czerwone</strong></h3>
+<h3>strona oficjalna:<strong> <a href="http://www.cracovia.pl/pilka-nozna/">Cracovia Kraków</a></strong></h3>
 <h3>Stadion: <strong> {{ instance.nazwa }}</strong></h3>
 <h3>Pojemność: <strong> {{ instance.pojemnosc }}</strong></h3>
 
@@ -87,14 +90,24 @@
        <tr><td>{{ instance.nr_zawodnika }}</td><td>{{ instance.imie }}</td><td>{{ instance.nazwisko }}</td><td>{{ instance.data_urodzenia }}</td>
        <td>{{ instance.pozycja }}</td></tr>
 
+
+
+
+
+
+
         {% endfor %}
         </table>
 {% endif %}
-          
+
+
+               
 
 </div>
 </div>
 
 {% endblock %}
+
+
 
 </body>

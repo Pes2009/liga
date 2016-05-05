@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+   {% block jumbotron_content %}
+<body>
+
+<div class="col-sm-6 col-sm-offset-3">
+
+<h1> {{ instance.title }} <small>{{ instance.timestamp }}</small></h1>
+{% if instance.image %}
+<img src="{{ instance.image.url }}" class="img-responsive">
+{% endif %}
+<p>Autor: {{ instance.user }}</p>
+
+{{ instance.content | linebreaks }}<br/>
+<!--
+{{ instance.update }}<br/>
+{{ instance.id }}<br/> -->
+
+</div>
+{% endblock jumbotron_content %}
+
+</body>

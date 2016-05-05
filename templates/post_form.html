@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+
+   {% block jumbotron_content %}
+<div class="col-sm-6 col-sm-offset-3">
+{% include 'messages_display.html' %}
+
+<h1>form</h1>
+
+<form method="POST" action="" enctype="multipart/form-data">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Create Post"/>
+</form>
+</div>
+{% endblock %}
+
