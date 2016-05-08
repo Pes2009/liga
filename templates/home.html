@@ -28,14 +28,17 @@
  
 <div class="container ">
 
+ {% if querysets %}
+ {% for instance in  querysets %}
+<h3> <strong> {{ querysets.widownia__sum }} </strong></h3>
+
+</div>
 
 
-     <div class=".col-md-offset-4 .col-md-4 .col-md-offset-4">
+
+ {% endfor %}{% endif %}
 
 
-
-
- {% include 'slide-navbar.html' %}
 <!--
 <a href="../pogon/" type="button" class="btn btn-primary btn-lg ">Pogon Szczecin</a>
 <a href="../legia/" type="button" class="btn btn-primary btn-lg ">Legia Warszawa</a>
@@ -53,8 +56,7 @@
 <a href="../ruch/" type="button" class="btn btn-primary btn-lg ">Ruch Chorzów</a>
 <a href="../termalika/" type="button" class="btn btn-primary btn-lg ">Termalika Nieciecza</a>
 <a href="../korona/" type="button" class="btn btn-primary btn-lg ">Korona Kielce</a> -->
-</div>
-</div>
+
 </body>
 
         {% endblock %}

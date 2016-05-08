@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models
@@ -6,8 +7,10 @@ from django.db.models.signals import pre_save
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
+
 class Klub(models.Model):
 	Nazwa = models.CharField(max_length=50, blank=False, null=False, unique=True)
+	data_powstania = models.DateField(auto_now=False, auto_now_add=False,)
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False,)
 	updated = models.DateTimeField(auto_now_add=False, auto_now=True,)
 	punkty = models.IntegerField(blank=False,null=True,)
@@ -18,7 +21,6 @@ class Klub(models.Model):
 	def __unicode__(self):             
 		return self.Nazwa
 
-
 class Stadion(models.Model):
 	nazwa = models.CharField(max_length=50, blank=False, null=False, unique=True)
 	miasto = models.CharField(max_length=50,blank=False,null=False,)
@@ -28,7 +30,7 @@ class Stadion(models.Model):
 
 
 	def __unicode__(self):             
-		return self.nazwa
+		return self.nazwa.decode().encode('utf-8')
 
 
 class Zawodnik(models.Model):

@@ -14,8 +14,16 @@ from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post
 # Create your views here.
 def home(request):
 
+	#queryset = Mecz.objects.order_by('-widownia')
+	querysets = Mecz.objects.all().aggregate(Sum('widownia'))
 
-	return render(request, "home.html")
+
+	context = { 
+	"querysets":querysets
+	}
+
+
+	return render(request, "home.html", context)
 
 def druzyny(request):
 
@@ -144,7 +152,7 @@ def lechia(request):
 def slask(request):
 
 	gole = Info_mecz.objects.all().aggregate(Avg('gole_zawodnika'))
-	queryset = Klub.objects.filter(Nazwa='Sląsk Wrocław')
+	queryset = Klub.objects.filter(Nazwa='Śląsk Wroclaw')
 	stadion = Stadion.objects.filter(klub=5)
 	trener = Trener.objects.filter(klub=5)
 	ziomset = Zawodnik.objects.filter(klub=5).order_by('-pozycja','-nr_zawodnika')

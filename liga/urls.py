@@ -9,6 +9,7 @@ urlpatterns = [
      url(r'^$', 'tabela.views.post_list', name='list'),
      url(r'^tabela/', 'tabela.views.tabela', name='tabela'),
      url(r'^druzyny/', 'tabela.views.druzyny', name='druzyny'),
+     url(r'^widownia/', 'tabela.views.home', name='home'),
 
 
      # blog/post

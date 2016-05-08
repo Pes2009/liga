@@ -60,7 +60,7 @@
 
 {% endif %}
 
-
+ <a href="{% url "list" %}" type="button" class="btn btn-primary btn-md " style="float: right; margin-top: 200px;">powrót</a>
      {% if request.user.is_authenticated %}
 
       <div class="row">
@@ -75,7 +75,7 @@
 </form>
 </div>
 </div>
- <a href="../" type="button" class="btn btn-primary btn-md " style="float: right; margin-top: 200px;">Back</a>
+ 
 
 {% endif %}
 

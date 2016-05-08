@@ -1,3 +1,4 @@
+#!/usr/bin/env/python
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib import admin
@@ -18,7 +19,7 @@ class KlubAdmin(admin.ModelAdmin):
 
 
 	fieldsets = [
-	(None,               {'fields': ['Nazwa']}),
+	(None,               {'fields': ['Nazwa', 'data_powstania']}),
 	('Dane szczegolowe', {'fields': ['punkty','zwyciestwa','remisy','porazki'], 'classes': ['collapse']}),
 	]
 	inlines = [ZawodnikInline]

@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import tabela.models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -26,6 +27,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('Nazwa', models.CharField(unique=True, max_length=50)),
+                ('data_powstania', models.DateField()),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('punkty', models.IntegerField(null=True)),
@@ -57,10 +59,11 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=50)),
                 ('slug', models.SlugField(unique=True)),
-                ('image', models.FileField(null=True, upload_to=tabela.models.upload_location, blank=True)),
+                ('image', models.FileField(null=True, upload_to=b'', blank=True)),
                 ('content', models.TextField()),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now=True)),
+                ('user', models.ForeignKey(default=1, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ['-timestamp', '-updated'],

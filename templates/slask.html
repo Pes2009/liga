@@ -31,8 +31,6 @@
    
  {% if queryset %}
  {% for instance in  queryset %}
-  {% if stadion %}
- {% for instance in  stadion %}
 
 <div class="container ">
 <div class="jumbotron">
@@ -52,13 +50,15 @@
 <div class="text-align-center">
 <h2><strong>WOJSKOWY KLUB SPORTOWY</strong></h2>
 <h3><strong> {{ instance.Nazwa }}</strong></h3>
-<h3> Data założenia:<strong> 18 marca  1947</strong></h3>
+<h3> Data założenia:<strong>{{ instance.data_powstania }}</strong></h3>
 <h3> Barwy:<strong> Biało Zielone</strong></h3>
 <h2>strona oficjalna:<strong> <a href="http://www.slaskwroclaw.pl">Śląsk Wrocław</a></strong></h2>
+ {% endfor %}{% endif %}
+
+  {% if stadion %}
+ {% for instance in  stadion %}
 <h3>Stadion: <strong> {{ instance.nazwa }}</strong></h3>
 <h3>Pojemność: <strong> {{ instance.pojemnosc }}</strong></h3>
-
- {% endfor %}{% endif %}
  {% endfor %}{% endif %}
 
 

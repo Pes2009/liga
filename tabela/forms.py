@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class KlubForm(forms.ModelForm):
 	class Meta:
 		model = Klub
-		fields = ['Nazwa', 'punkty','zwyciestwa','remisy','porazki']
+		fields = ['Nazwa','data_powstania', 'punkty','zwyciestwa','remisy','porazki']
 
 
 	def clean_full_name(self):
