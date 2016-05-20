@@ -24,19 +24,199 @@
 
 
 
+
    {% block jumbotron_content %}
  
-<div class="container ">
 
- {% if querysets %}
- {% for instance in  querysets %}
-<h3> <strong> {{ querysets.widownia__sum }} </strong></h3>
+<div class="container ">
+<div class="jumbotron">
+
+
+<h1 class="text-align-center" style="margin-bottom: 50px;">Frekwencja</h1>
+
+
+<table class="table table-striped">
+        <tr>
+    <td>Drużyna</td>
+    <td>Średnia</td>
+    <td>największa</td>
+    <td>najmniejsza</td>
+    <td>łaczna</td>
+  </tr>
+
+
+{% if klub_pogon %}
+{% for instance in klub_pogon %}
+<tr><td>
+{{ instance.Nazwa }}
+</td>
+{% endfor %}
+{% endif %}
+
+
+{% if pogon %}
+<td>
+{{ pogon.widownia__avg }}
+</td>
+{% endif %}
+
+{% if pogon_max %}
+<td>
+{{ pogon_max.widownia__max }}
+</td>
+{% endif %}
+
+{% if pogon_min %}
+<td>
+{{ pogon_min.widownia__min }}
+</td>
+{% endif %}
+
+{% if pogon_sum %}
+<td>
+{{ pogon_sum.widownia__sum }}
+</td>
+{% endif %}
+
+
+
+
+{% if klub_legia %}
+{% for instance in klub_legia %}
+<tr><td>
+{{ instance.Nazwa }}
+</td>
+{% endfor %}
+{% endif %}
+
+
+
+{% if legia %}
+<td>
+{{ legia.widownia__avg }}
+</td>
+{% endif %}
+
+{% if legia_max %}
+<td>
+{{ legia_max.widownia__max }}
+</td>
+{% endif %}
+
+{% if legia_min %}
+<td>
+{{ legia_min.widownia__min }}
+</td>
+{% endif %}
+
+{% if legia_sum %}
+<td>
+{{ legia_sum.widownia__sum }}
+</td>
+{% endif %}
+
+
+
+
+
+
+
+
+{% if klub_lech %}
+{% for instance in klub_lech %}
+<tr><td>
+{{ instance.Nazwa }}
+</td>
+{% endfor %}
+{% endif %}
+
+
+
+{% if lech %}
+<td>
+{{ lech.widownia__avg }}
+</td>
+{% endif %}
+
+{% if lech_max %}
+<td>
+{{ lech_max.widownia__max }}
+</td>
+{% endif %}
+
+{% if lech_min %}
+<td>
+{{ lech_min.widownia__min }}
+</td>
+{% endif %}
+
+{% if lech_sum %}
+<td>
+{{ lech_sum.widownia__sum }}
+</td>
+{% endif %}
+
+
+
+
+
+
+
+
+{% if klub_lechia %}
+{% for instance in klub_lechia %}
+<tr><td>
+{{ instance.Nazwa }}
+</td>
+{% endfor %}
+{% endif %}
+
+
+
+{% if lechia %}
+<td>
+{{ lechia.widownia__avg }}
+</td>
+{% endif %}
+
+{% if lechia_max %}
+<td>
+{{ lechia_max.widownia__max }}
+</td>
+{% endif %}
+
+{% if lechia_min %}
+<td>
+{{ lechia_min.widownia__min }}
+</td>
+{% endif %}
+
+{% if lechia_sum %}
+<td>
+{{ lechia_sum.widownia__sum }}
+</td>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% if queryset %}
+ {% endif %}
+
+
+
+
 
 </div>
-
-
-
- {% endfor %}{% endif %}
 
 
 <!--

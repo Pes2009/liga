@@ -4,9 +4,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
-from django.db.models import Sum, Avg
-from .forms import KlubForm, PostForm
-from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post
+from django.db.models import Sum, Avg, Count, Min, Max
+from .forms import KlubForm, PostForm, MovieFilterForm
+from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post, Genre, Director, Actor, Movie, RATING_CHOICES
+
 
 
 
@@ -14,16 +15,87 @@ from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post
 # Create your views here.
 def home(request):
 
-	#queryset = Mecz.objects.order_by('-widownia')
-	querysets = Mecz.objects.all().aggregate(Sum('widownia'))
+	queryset = Mecz.objects.order_by('-widownia')
+	pogon = Mecz.objects.filter(stadion_nr=2).aggregate(Avg('widownia'))
+	pogon_max = Mecz.objects.filter(stadion_nr=2).aggregate(Max('widownia'))
+	pogon_min = Mecz.objects.filter(stadion_nr=2).aggregate(Min('widownia'))
+	pogon_sum = Mecz.objects.filter(stadion_nr=2).aggregate(Sum('widownia'))
+
+	legia = Mecz.objects.filter(stadion_nr=1).aggregate(Avg('widownia'))
+	legia_max = Mecz.objects.filter(stadion_nr=1).aggregate(Max('widownia'))
+	legia_min = Mecz.objects.filter(stadion_nr=1).aggregate(Min('widownia'))
+	legia_sum = Mecz.objects.filter(stadion_nr=1).aggregate(Sum('widownia'))
+
+	lech = Mecz.objects.filter(stadion_nr=5).aggregate(Avg('widownia'))
+	lech_max = Mecz.objects.filter(stadion_nr=5).aggregate(Max('widownia'))
+	lech_min = Mecz.objects.filter(stadion_nr=5).aggregate(Min('widownia'))
+	lech_sum = Mecz.objects.filter(stadion_nr=5).aggregate(Sum('widownia'))
+
+	lechia = Mecz.objects.filter(stadion_nr=8).aggregate(Avg('widownia'))
+	lechia_max = Mecz.objects.filter(stadion_nr=8).aggregate(Max('widownia'))
+	lechia_min = Mecz.objects.filter(stadion_nr=8).aggregate(Min('widownia'))
+	lechia_sum = Mecz.objects.filter(stadion_nr=8).aggregate(Sum('widownia'))
+
+
+	klub_pogon = Klub.objects.filter(Nazwa='Pogon Szczecin')
+	klub_legia = Klub.objects.filter(Nazwa='Legia Warszawa')
+	klub_lech = Klub.objects.filter(Nazwa='Lech Poznań')
+	klub_lechia = Klub.objects.filter(Nazwa='Lechia Gdańsk')
+
 
 
 	context = { 
-	"querysets":querysets
+	"pogon":pogon,
+	"pogon_max":pogon_max,
+	"pogon_min":pogon_min,
+	"pogon_sum":pogon_sum,
+
+	"legia":legia,
+	"legia_max":legia_max,
+	"legia_min":legia_min,
+	"legia_sum":legia_sum,
+
+	"lech":lech,
+	"lech_max":lech_max,
+	"lech_min":lech_min,
+	"lech_sum":lech_sum,
+
+	"lechia":lechia,
+	"lechia_max":lechia_max,
+	"lechia_min":lechia_min,
+	"lechia_sum":lechia_sum,
+
+
+	"queryset":queryset,
+	"klub_pogon":klub_pogon,
+	"klub_legia":klub_legia,
+	"klub_lech":klub_lech,
+	"klub_lechia":klub_lechia
+
 	}
 
 
 	return render(request, "home.html", context)
+
+
+
+def tabela_strzelcow(request):
+	#queryset = Mecz.objects.order_by('-widownia')
+	goles = Info_mecz.objects.filter(nr_zawodnika=1).aggregate(Sum('gole_zawodnika'))
+	setset=Info_mecz.objects.annotate(all_gole=Sum('gole_zawodnika'))
+	gole = Info_mecz.objects.select_related("nr_zawodnika")
+	ziomset = Zawodnik.objects.filter(klub=1).order_by('-pozycja','-nr_zawodnika')
+
+
+	context = { 
+	"gole":gole,
+	"ziomset":ziomset,
+	"setset":setset,
+	"goles":goles
+	}
+
+
+	return render(request, "tabela_strzelcow.html", context)
 
 def druzyny(request):
 
@@ -53,8 +125,7 @@ def tabela(request):
 
 	queryset = Klub.objects.order_by('-punkty')
 	ziomset = Zawodnik.objects.order_by('-klub')
-	#setset= = Info_mecz.objects.order_by('-gole_zawodnika')
-	setset=Info_mecz.objects.annotate(all_gole=Sum('gole_zawodnika'))
+
 
 
 	Klub.objects.distinct()
@@ -63,7 +134,6 @@ def tabela(request):
 	context = { 
 	"queryset":queryset,
 	"ziomset":ziomset,
-	"setset":setset,
 	"form":form,
 	}
 	return render(request, "tabela.html", context,)
@@ -71,18 +141,19 @@ def tabela(request):
 
 def pogon(request):
 
-	gole = Info_mecz.objects.all().aggregate(Avg('gole_zawodnika'))
+	goles = Info_mecz.objects.filter(nr_zawodnika=1).aggregate(Sum('gole_zawodnika'))
+	gole = Info_mecz.objects.select_related("nr_zawodnika")
 	queryset = Klub.objects.filter(Nazwa='Pogon Szczecin')
 	stadion = Stadion.objects.filter(klub=1)
 	trener = Trener.objects.filter(klub=1)
-	ziomset = Zawodnik.objects.filter(klub=1).order_by('-pozycja','-nr_zawodnika')
+	ziomset = Zawodnik.objects.filter(klub=1).order_by('-pozycja','nr_zawodnika')
 		#Entry.objects.order_by(Coalesce('summary', 'headline').desc())
 	#gole = Info_mecz.objects.values('gole_zawodnika')
-
 	context = { 
 	"queryset":queryset,
 	"ziomset":ziomset,
 	"gole":gole,
+	"goles":goles,
 	"stadion":stadion,
 	"trener":trener
 	}
@@ -489,3 +560,52 @@ def post_delete(request, id=None):
 	messages.success(request, "Sukces w usunieciu")
 	return redirect('/post/')
 
+
+def move_list(request):
+	qs = Movie.objects.order_by('title')
+
+	form = MovieFilterForm(data=request.REQUEST)
+
+
+	facets = {
+	'selected' : {},
+	'categories' : {
+	'genres' : Genre.objects.all(),
+	'directors' : Director.objects.all(),
+	'actors' : Actor.objects.all(),
+	'ratings' : RATING_CHOICES,
+	},
+
+	}
+
+	if form.is_valid():
+		genre = form.cleaned_data['genre']
+		if genre:
+			facets['selected']['genre'] = genre
+			qs = qs.filter(genres=genre).distinct()
+
+
+		director = form.cleaned_data['director']
+		if director:
+			facets['selected']['director'] = director
+			qs = qs.filter(directors=director).distinct()
+
+ 
+		actor = form.cleaned_data['director']
+		if actor:
+			facets['selected']['actor'] = actor
+			qs = qs.filter(actors=actor).distinct()
+
+
+		rating = form.cleaned_data['rating']
+		if rating:
+			facets['selected']['rating'] = \
+			(int(rating), dict(RATING_CHOICES)[int(rating)])
+
+	context = {
+		'form' :form,
+		'facets' : facets,
+		'object_list' : qs,
+	}
+
+	return render(request, "movie_list.html", context,)

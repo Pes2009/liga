@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+{% block head_title %} Ekstraklasa {% endblock %}
+      <style>
+      {% block style %}{% endblock %}
+      </style>
+
+
+  <body>
+ {% block jumbotron_content %}
+
+  <div class="container ">
+<div class="jumbotron">
+
+{% if ziomset %}
+<table class="table table-striped">
+ <thead class="thead-inverse">
+    <tr>
+      <th>Numer</th>
+      <th>Klub</th>
+      <th>Imie</th>
+      <th>Nazwisko</th>
+      <th>gole</th>
+    </tr>
+  </thead>
+  <tbody>
+
+                {% for instance in  ziomset %}
+
+
+       <tr><td>{{ instance.nr_zawodnika }}</td><td>{{ instance.klub }}</td><td>{{ instance.imie }}</td><td>{{ instance.nazwisko }}</td>{% if goles %}<td>{{ goles.gole_zawodnika__sum }}</td></tr> {% endif %}
+ {% endfor %}{% endif %}
+
+     </tbody>
+        </table>
+
+
+
+
+
+
+
+
+
+
+<!--
+<p> gole zawodnika</p>
+
+ {% if gole %}
+ {% for instance in  gole %}
+<h3> <strong> {{ instance.gole_zawodnika }} {{ instance.nr_zawodnika }} </strong></h3>
+  
+
+
+ {% endfor %}{% endif %}
+
+ {% if goles %}
+ {% for instance in  goles %}
+<h3> <strong> {{ goles.gole_zawodnika__sum }} </strong></h3>
+  
+
+ {% endfor %}{% endif %}
+-->
+</div>
+</div>
+
+
+{% endblock %}
+
+
+ 

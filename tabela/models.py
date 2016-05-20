@@ -6,6 +6,8 @@ import datetime
 from django.db.models.signals import pre_save
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
+from django.utils.translation import ugettext_lazy as _
+
 
 
 class Klub(models.Model):
@@ -44,7 +46,7 @@ class Zawodnik(models.Model):
 
 
 	def __unicode__(self):
-		zwroc = ("klub : " + str(self.klub) +"\n imie  " + self.imie +" nazwisko  " + self.nazwisko) 
+		zwroc = (self.imie + self.nazwisko + " " + str(self.nr_zawodnika) )
 		return zwroc
 
 class Trener(models.Model):
@@ -69,7 +71,7 @@ class Mecz(models.Model):
 	czas_gry = models.TimeField(auto_now_add=True, auto_now=False,)
 	gole_gosci = models.IntegerField(blank=False,null=True,)
 	gole_gospodarz = models.IntegerField(blank=False,null=True,)
-	stadion_nr = models.IntegerField(blank=False,null=False,)
+	stadion_nr = models.ForeignKey(Stadion)
 
 	def __unicode__(self):
 		info = (str(self.gospodarz), 'kontra', str(self.gosc))
@@ -79,7 +81,7 @@ class Info_mecz(models.Model):
 	gole_zawodnika = models.IntegerField(blank=False,null=True,)
 	zolte_kartki = models.IntegerField(blank=False,null=True,)
 	asysty = models.IntegerField(blank=False,null=True,)
-	stadion_nr = models.IntegerField(blank=False,null=False,)
+	stadion_nr = models.ForeignKey(Stadion)
 	nr_zawodnika = models.ForeignKey(Zawodnik)
 	nr_meczu = models.ForeignKey(Mecz)
 
@@ -95,7 +97,7 @@ class Post(models.Model):
 	title = models.CharField(max_length=50)
 	slug = models.SlugField(unique=True)
 	image = models.FileField(null=True,blank=True)
-	#image = models.ImageField(null=True, blank=True, height_field="height_field",width_field="width_field")
+	#image = models.FileField(null=True, blank=True, height_field="height_field",width_field="width_field")
 	#height_field = models.IntegerField(default=0)
 	#width_field = models.IntegerField(default=0)
 	content = models.TextField()
@@ -129,3 +131,43 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_post_receiver, sender=Post)
+
+
+RATING_CHOICES = (
+	(1, u"*"),
+	(2, u"**"),
+	(3, u"***"),
+	(4, u"****"),
+	(5, u"*****"),
+	)
+
+class Genre(models.Model):
+	title = models.CharField(_(u"tytuł"), max_length=100)
+
+	def __unicode__(self):
+		return self.title
+
+
+class Director(models.Model):
+	first_name = models.CharField(_(u"Imię"), max_length=40)
+	last_name = models.CharField(_(u"Nazwisko"), max_length=40)
+
+	def __unicode__(self):
+		return self.first_name + '' + self.last_name
+
+class Actor(models.Model):
+	first_name = models.CharField(_(u"Imię"), max_length=40)
+	last_name = models.CharField(_(u"Nazwisko"), max_length=40)
+
+	def __unicode__(self):
+		return self.first_name + '' + self.last_name
+
+class Movie(models.Model):
+	title = models.CharField(_(u"Tytuł"), max_length=255)
+	genres = models.ManyToManyField(Genre, blank=True)
+	directors = models.ManyToManyField(Director, blank=True)
+	actors = models.ManyToManyField(Actor, blank=True)
+	rating = models.PositiveIntegerField(choices=RATING_CHOICES)
+
+	def __unicode__(self):
+		return self.title

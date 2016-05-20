@@ -1,3 +1,7 @@
+ {% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
  <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -11,13 +15,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url "tabela" %}">Tabela</a></li>
-            <li><a href="{% url "druzyny" %}">Drużyny</a></li>
-            <li><a href="#contact">Kontakt</a></li>
+            <li><a class="navbar-brand" href="{% url "tabela" %}">Tabela</a></li>
+            <li><a class="navbar-brand" href="{% url "druzyny" %}">Drużyny</a></li>
+            <li><a class="navbar-brand" href="{% url "tabela_strzelcow" %}">Strzelcy</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">O stronie</a></li>
-            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li><a class="navbar-brand" href="{% url "home" %}">Widownia</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -27,8 +30,16 @@
    <div class="container">
 
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron" style="text-align: center;">
-        <h1>Ekstraklasa 2015/2016</h1>
+      <div class="jumbotron" style="text-align: center;background-color: white;">
+    
+                 <!-- Image Header -->
+        <div class="row">
+            <div class="col-lg-offset-4 .col-lg-8">
+                <img class="img-responsive" src= "{% static 'img/ekstraklasa.png' %}" alt="">
+            </div>
+        </div>
+        <!-- /.row -->
+
       </div>
 
    </div> <!-- /container -->
