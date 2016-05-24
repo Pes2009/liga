@@ -97,6 +97,8 @@ class Post(models.Model):
 	title = models.CharField(max_length=50)
 	slug = models.SlugField(unique=True)
 	image = models.FileField(null=True,blank=True)
+	draft = models.BooleanField(default=False)
+	publish = models.DateField(auto_now=False, auto_now_add=False)
 	#image = models.FileField(null=True, blank=True, height_field="height_field",width_field="width_field")
 	#height_field = models.IntegerField(default=0)
 	#width_field = models.IntegerField(default=0)
@@ -133,41 +135,3 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_post_receiver, sender=Post)
 
 
-RATING_CHOICES = (
-	(1, u"*"),
-	(2, u"**"),
-	(3, u"***"),
-	(4, u"****"),
-	(5, u"*****"),
-	)
-
-class Genre(models.Model):
-	title = models.CharField(_(u"tytuł"), max_length=100)
-
-	def __unicode__(self):
-		return self.title
-
-
-class Director(models.Model):
-	first_name = models.CharField(_(u"Imię"), max_length=40)
-	last_name = models.CharField(_(u"Nazwisko"), max_length=40)
-
-	def __unicode__(self):
-		return self.first_name + '' + self.last_name
-
-class Actor(models.Model):
-	first_name = models.CharField(_(u"Imię"), max_length=40)
-	last_name = models.CharField(_(u"Nazwisko"), max_length=40)
-
-	def __unicode__(self):
-		return self.first_name + '' + self.last_name
-
-class Movie(models.Model):
-	title = models.CharField(_(u"Tytuł"), max_length=255)
-	genres = models.ManyToManyField(Genre, blank=True)
-	directors = models.ManyToManyField(Director, blank=True)
-	actors = models.ManyToManyField(Actor, blank=True)
-	rating = models.PositiveIntegerField(choices=RATING_CHOICES)
-
-	def __unicode__(self):
-		return self.title

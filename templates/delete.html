@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+
+ {% block jumbotron_content %}
+
+
+      <div class="row">
+     <div class="col-md-6">
+
+<form method="POST" action=".">{% csrf_token %}
+<p>Are you sure to delete? "{{ instance }}" ? </p>
+
+
+<input type="submit" value="Confirm" class="btn btn-warning">
+<a href=".." class="btn btn-default">Cancel</a>
+
+</form>
+</div>
+
+
+
+{% endblock jumbotron_content %}

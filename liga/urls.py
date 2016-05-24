@@ -11,7 +11,6 @@ urlpatterns = [
      url(r'^druzyny/', 'tabela.views.druzyny', name='druzyny'),
      url(r'^widownia/', 'tabela.views.home', name='home'),
      url(r'^strzelcy/', 'tabela.views.tabela_strzelcow', name='tabela_strzelcow'),
-     url(r'^filmy/', 'tabela.views.move_list', name='move_list'),
 
 
      # blog/post

@@ -5,8 +5,8 @@ from django.conf import settings
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
 from django.db.models import Sum, Avg, Count, Min, Max
-from .forms import KlubForm, PostForm, MovieFilterForm
-from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post, Genre, Director, Actor, Movie, RATING_CHOICES
+from .forms import KlubForm, PostForm
+from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post
 
 
 
@@ -552,60 +552,17 @@ def post_update(request, id=None):
 
 	return render(request, "post_form.html", context,)
 
+	
+
 def post_delete(request, id=None):
 	if not request.user.is_staff or not request.user.is_superuser:
 		raise Http404
 	instance = get_object_or_404(Post, id=id)
-	instance.delete()
-	messages.success(request, "Sukces w usunieciu")
-	return redirect('/post/')
-
-
-def move_list(request):
-	qs = Movie.objects.order_by('title')
-
-	form = MovieFilterForm(data=request.REQUEST)
-
-
-	facets = {
-	'selected' : {},
-	'categories' : {
-	'genres' : Genre.objects.all(),
-	'directors' : Director.objects.all(),
-	'actors' : Actor.objects.all(),
-	'ratings' : RATING_CHOICES,
-	},
-
-	}
-
-	if form.is_valid():
-		genre = form.cleaned_data['genre']
-		if genre:
-			facets['selected']['genre'] = genre
-			qs = qs.filter(genres=genre).distinct()
-
-
-		director = form.cleaned_data['director']
-		if director:
-			facets['selected']['director'] = director
-			qs = qs.filter(directors=director).distinct()
-
- 
-		actor = form.cleaned_data['director']
-		if actor:
-			facets['selected']['actor'] = actor
-			qs = qs.filter(actors=actor).distinct()
-
-
-		rating = form.cleaned_data['rating']
-		if rating:
-			facets['selected']['rating'] = \
-			(int(rating), dict(RATING_CHOICES)[int(rating)])
-
+	if request.method == "POST":
+		instance.delete()
+		return redirect('/')
 	context = {
-		'form' :form,
-		'facets' : facets,
-		'object_list' : qs,
-	}
+			"instance":instance,
+		}
+	return render(request, "delete.html", context)
 
-	return render(request, "movie_list.html", context,)
