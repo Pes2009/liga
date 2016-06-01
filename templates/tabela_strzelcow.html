@@ -14,55 +14,41 @@
   <div class="container ">
 <div class="jumbotron">
 
-{% if ziomset %}
 <table class="table table-striped">
  <thead class="thead-inverse">
     <tr>
       <th>Numer</th>
-      <th>Klub</th>
       <th>Imie</th>
       <th>Nazwisko</th>
       <th>gole</th>
     </tr>
   </thead>
-  <tbody>
+  <body>
 
-                {% for instance in  ziomset %}
-
-
-       <tr><td>{{ instance.nr_zawodnika }}</td><td>{{ instance.klub }}</td><td>{{ instance.imie }}</td><td>{{ instance.nazwisko }}</td>{% if goles %}<td>{{ goles.gole_zawodnika__sum }}</td></tr> {% endif %}
- {% endfor %}{% endif %}
-
-     </tbody>
-        </table>
+<h3>Gole</h3>
+{% for instance in infos %}
+<tr><td>{{ forloop.counter }}</td><td>  {{instance.imie}}</td><td> {{instance.nazwisko}}</td><td> {{instance.get_total_gole}}</td></tr>
+{% endfor %}
+ </table>
 
 
-
-
-
-
-
-
-
-
-<!--
-<p> gole zawodnika</p>
-
- {% if gole %}
- {% for instance in  gole %}
-<h3> <strong> {{ instance.gole_zawodnika }} {{ instance.nr_zawodnika }} </strong></h3>
+ <table class="table table-striped">
+ <thead class="thead-inverse">
+    <tr>
+      <th>Numer</th>
+      <th>Imie</th>
+      <th>Nazwisko</th>
+      <th>asysty</th>
+    </tr>
+  </thead>
   
+<h3>Asysty</h3>
+{% for instance in infos %}
+<tr><td>{{ forloop.counter }}  </td><td> {{instance.imie}} </td><td> {{instance.nazwisko}}</td><td>  {{instance.get_total_asysty}}</td></tr>
+{% endfor %}
+</table>
 
 
- {% endfor %}{% endif %}
-
- {% if goles %}
- {% for instance in  goles %}
-<h3> <strong> {{ goles.gole_zawodnika__sum }} </strong></h3>
-  
-
- {% endfor %}{% endif %}
--->
 </div>
 </div>
 

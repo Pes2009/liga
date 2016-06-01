@@ -1,8 +1,94 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% load staticfiles %}
+<head>
+{% block jumbotron_content %}
 
-{% block head_title %} Ekstraklasa {% endblock %}
+ {% if queryset %}
+ {% for instance in  queryset %}
+
+<script type="text/javascript">
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer",
+  {
+    title:{
+      text: "Statystyki",
+      verticalAlign: 'top',
+      horizontalAlign: 'left'
+    },
+                animationEnabled: true,
+    data: [
+    {        
+      type: "doughnut",
+      startAngle:20,
+      toolTipContent: "{label}: {y} - <strong>#percent%</strong>",
+      indexLabel: "{label} #percent% ",
+      dataPoints: [
+        {  y: {{ instance.zwyciestwa }}, label: "zwycięstwa" },
+        {  y: {{ instance.remisy }}, label: "remisy" },
+        {  y: {{ instance.porazki }}, label: "porażki" },
+      
+      ]
+    }
+    ]
+  });
+  chart.render();
+   var chart1 = new CanvasJS.Chart("gole_zdobyte",
+  {
+    title:{
+      text: "Zdobyte gole",
+      verticalAlign: 'top',
+      horizontalAlign: 'left'
+    },
+                animationEnabled: true,
+    data: [
+    {        
+      type: "doughnut",
+      startAngle:20,
+      toolTipContent: "{label}: {y} - <strong>#percent%</strong>",
+      indexLabel: "{label}: {y}",
+      dataPoints: [
+        {  y: {{instance.get_gole_home}}, label: "gole dom" },
+        {  y: {{instance.get_gole_away}}, label: "gole wyjazd" },
+      
+      ]
+    }
+    ]
+  });
+  chart1.render();
+
+   var chart2 = new CanvasJS.Chart("gole_stracone",
+  {
+    title:{
+      text: "Stracone gole",
+      verticalAlign: 'top',
+      horizontalAlign: 'left'
+    },
+                animationEnabled: true,
+    data: [
+    {        
+      type: "doughnut",
+      startAngle:20,
+      toolTipContent: "{label}: {y} - <strong>#percent%</strong>",
+      indexLabel: "{label}: {y}",
+      dataPoints: [
+        {  y: {{instance.lost_gole_home}}, label: "stracone gole dom" },
+        {  y: {{instance.lost_gole_away}}, label: "stracone gole wyjazd" },
+      
+      ]
+    }
+    ]
+  });
+  chart2.render();
+}
+</script>
+
+
+  <script type="text/javascript" src="{% static 'js/canvasjs.min.js' %}">
+  </script>
+<script src=https://code.jquery.com/jquery-2.2.4.min.js></script>
+</head>
+
       <style>
       {% block style %}
 
@@ -23,14 +109,11 @@
 
 
 
-   {% block jumbotron_content %}
 
    <title>Jagiellonia Białystok</title>
 
 
-   
- {% if queryset %}
- {% for instance in  queryset %}
+
 
 <div class="container ">
 <div class="jumbotron">
@@ -88,31 +171,26 @@
     <td>Nazwisko</td>
     <td>Data Urodzenia</td>
     <td>Pozycja</td>
+    <td>gole</td>
   </tr>
 
         {% for instance in  ziomset %}
 
        <tr><td>{{ instance.nr_zawodnika }}</td><td>{{ instance.imie }}</td><td>{{ instance.nazwisko }}</td><td>{{ instance.data_urodzenia }}</td>
-       <td>{{ instance.pozycja }}</td></tr>
-
-
-
-
-
-
+       <td>{{ instance.pozycja }}</td><td>{{instance.get_total_gole}}</td></tr>
 
         {% endfor %}
         </table>
 {% endif %}
+          
 
-
-               
+<div id="chartContainer" style="height: 300px; width: 100%;margin-top: 50px;"></div>
+<div id="gole_zdobyte" style="height: 300px; width: 100%;margin-top: 50px;"></div>
+<div id="gole_stracone" style="height: 300px; width: 100%;margin-top: 50px;"></div>
 
 </div>
 </div>
 
 {% endblock %}
-
-
 
 </body>

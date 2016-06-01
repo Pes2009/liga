@@ -3,6 +3,7 @@
 {% load staticfiles %}
 
 {% block head_title %} Ekstraklasa {% endblock %}
+
       <style>
       {% block style %}
 
@@ -15,6 +16,9 @@
 
       {% endblock %}
       </style>
+  
+
+
 
 
 
@@ -30,6 +34,8 @@
 
 <div class="container ">
 <div class="jumbotron">
+
+
 
 
 <h2 class="text-align-center" style="margin-bottom: 50px;">Tabela</h2>
@@ -78,6 +84,9 @@
  
 
 {% endif %}
+
+
+  {% include 'js.html' %}
 
         {% endblock %}
 

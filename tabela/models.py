@@ -10,6 +10,9 @@ from django.utils.translation import ugettext_lazy as _
 
 
 
+
+
+
 class Klub(models.Model):
 	Nazwa = models.CharField(max_length=50, blank=False, null=False, unique=True)
 	data_powstania = models.DateField(auto_now=False, auto_now_add=False,)
@@ -19,6 +22,32 @@ class Klub(models.Model):
 	porazki = models.IntegerField(blank=False,null=True,)
 	zwyciestwa = models.IntegerField(blank=False,null=True,)
 	remisy = models.IntegerField(blank=False,null=True,)
+
+
+	def get_gole_home(self):
+		tots = 0
+		for gole_gospodarz in Mecz.objects.filter(gospodarz=self):
+			tots += gole_gospodarz.gole_gospodarz
+		return tots
+
+	def get_gole_away(self):
+		tot = 0
+		for gole_gosci in Mecz.objects.filter(gosc=self):
+			tot += gole_gosci.gole_gosci
+		return tot
+
+
+	def lost_gole_home(self):
+		tots = 0
+		for gole_gosci in Mecz.objects.filter(gospodarz=self):
+			tots += gole_gosci.gole_gosci
+		return tots
+
+	def lost_gole_away(self):
+		tot = 0
+		for gole_gospodarz in Mecz.objects.filter(gosc=self):
+			tot += gole_gospodarz.gole_gospodarz
+		return tot
 
 	def __unicode__(self):             
 		return self.Nazwa
@@ -43,6 +72,27 @@ class Zawodnik(models.Model):
 	pozycja = models.CharField(max_length=50, blank=False, null=True,)
 	data_urodzenia = models.DateField(auto_now=False, auto_now_add=False,)
 	klub = models.ForeignKey(Klub)
+
+
+	def get_total_gole(self):
+		tot = 0
+		for gole_zawodnika in Info_mecz.objects.filter(nr_zawodnika=self):
+			tot += gole_zawodnika.gole_zawodnika
+		return tot
+
+
+	def get_total_asysty(self):
+		tot = 0
+		for asysty in Info_mecz.objects.filter(nr_zawodnika=self):
+			tot += asysty.asysty
+		return tot
+
+
+	def get_total_zolte_kartki(self):
+		tot = 0
+		for zolte_kartki in Info_mecz.objects.filter(nr_zawodnika=self):
+			tot += gole_zawodnika.zolte_kartki
+		return tot
 
 
 	def __unicode__(self):
@@ -135,3 +185,18 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_save_post_receiver, sender=Post)
 
 
+class Project(models.Model):
+    title = models.CharField(max_length=150)
+    url = models.URLField()
+    manager = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def get_total_cost(self):
+        tot = 0
+        for cost in Cost.objects.filter(project=self):
+            tot += cost.cost
+        return tot
+
+class Cost(models.Model):
+    project = models.ForeignKey(Project)
+    cost = models.FloatField()
+    date = models.DateField()

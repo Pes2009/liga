@@ -20,6 +20,13 @@
       </style> 
 
 
+ <script>
+       {% block script %}{% endblock %}
+      </script>
+
+
+
+
   </head>
 
 
@@ -35,6 +42,10 @@
 
 <div class="container">
 
+      {% block content %}
+
+        {% endblock %}
+
 
 
       {% block jumbotron_content %}
@@ -42,9 +53,7 @@
 
       {% endblock %}
       
-      {% block content %}
 
-        {% endblock %}
 
   
     </div> <!-- /container -->

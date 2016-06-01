@@ -6,10 +6,14 @@ from django.shortcuts import render, render_to_response, get_object_or_404, redi
 from django.http import HttpResponseRedirect, Http404
 from django.db.models import Sum, Avg, Count, Min, Max
 from .forms import KlubForm, PostForm
-from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post
+from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post, Project, Cost
+
+
+def homes(request):
 
 
 
+	return render(request, "canvas.html")
 
 
 # Create your views here.
@@ -81,17 +85,13 @@ def home(request):
 
 def tabela_strzelcow(request):
 	#queryset = Mecz.objects.order_by('-widownia')
-	goles = Info_mecz.objects.filter(nr_zawodnika=1).aggregate(Sum('gole_zawodnika'))
-	setset=Info_mecz.objects.annotate(all_gole=Sum('gole_zawodnika'))
-	gole = Info_mecz.objects.select_related("nr_zawodnika")
-	ziomset = Zawodnik.objects.filter(klub=1).order_by('-pozycja','-nr_zawodnika')
+
+
+	infos = Zawodnik.objects.order_by('-id')
 
 
 	context = { 
-	"gole":gole,
-	"ziomset":ziomset,
-	"setset":setset,
-	"goles":goles
+	"infos":infos
 	}
 
 
@@ -565,4 +565,3 @@ def post_delete(request, id=None):
 			"instance":instance,
 		}
 	return render(request, "delete.html", context)
-

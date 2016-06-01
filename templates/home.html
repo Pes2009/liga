@@ -2,10 +2,113 @@
 {% load crispy_forms_tags %}
 {% load staticfiles %}
 
-{% block head_title %} Ekstraklasa {% endblock %}
-      <style>
-      {% block style %}
+   {% block jumbotron_content %}
 
+<head>
+{% if pogon_max %}
+{% if lech_max %}
+{% if lechia_max %}
+{% if legia_max %}
+
+<script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+      title:{
+        text: "Najwyższa Frekwencja"    
+      },
+      animationEnabled: true,
+      axisY: {
+        title: "Liczba kibiców"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme3",
+      data: [
+
+      {        
+        type: "column",  
+        showInLegend: false, 
+        legendMarkerColor: "grey",
+        legendText: "klbuy",
+        dataPoints: [      
+        {y: {{ lech_max.widownia__max }},  label: "Lech" },
+        {y: {{ legia_max.widownia__max }},  label: "Legia"},
+        {y: {{ lechia_max.widownia__max }},  label: "Lechia"},
+        {y: {{ pogon_max.widownia__max }}, label: "Pogoń"},      
+        ]
+      }   
+      ]
+    });
+
+    chart.render();
+  }
+  </script>
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+
+  <script type="text/javascript" src="{% static 'js/canvasjs.min.js' %}">
+  </script>
+<script src=https://code.jquery.com/jquery-2.2.4.min.js></script>
+</head>
+<style>
+ {% block style %}
+#shiva
+{
+  width: 100px;
+    height: 100px;
+    background: none;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+  float:left;
+  margin:5px;
+}
+.count
+{
+  line-height: 100px;
+  color:black;
+  margin-left:30px;
+  font-size:20px;
+}
+#talkbubble {
+   width: 120px;
+   height: 80px;
+   background: red;
+   position: relative;
+   -moz-border-radius:    10px;
+   -webkit-border-radius: 10px;
+   border-radius:         10px;
+  float:left;
+  margin:20px;
+}
+#talkbubble:before {
+   content:"";
+   position: absolute;
+   right: 100%;
+   top: 26px;
+   width: 0;
+   height: 0;
+   border-top: 13px solid transparent;
+   border-right: 26px solid red;
+   border-bottom: 13px solid transparent;
+}
+
+.linker
+{
+  font-size : 20px;
+  font-color: black;
+}
 
       .text-align-center{
   text-align: center;
@@ -17,38 +120,33 @@
       </style>
 
 
-
   <body>
-
-
-
-
-
-
-   {% block jumbotron_content %}
- 
 
 <div class="container ">
 <div class="jumbotron">
 
 
-<h1 class="text-align-center" style="margin-bottom: 50px;">Frekwencja</h1>
+
+ <div id="chartContainer" style="height: 300px; width: 100%;">
+    </div>
+
+
 
 
 <table class="table table-striped">
         <tr>
-    <td>Drużyna</td>
-    <td>Średnia</td>
-    <td>największa</td>
-    <td>najmniejsza</td>
-    <td>łaczna</td>
+    <td><strong>Drużyna</strong></td>
+    <td><strong>Średnia</strong></td>
+    <td><strong>najmniejsza</strong></td>
+    <td><strong>łaczna</strong></td>
   </tr>
 
 
 {% if klub_pogon %}
 {% for instance in klub_pogon %}
 <tr><td>
-{{ instance.Nazwa }}
+<strong>{{ instance.Nazwa }}</strong>
+ <img src= "{% static 'img/pogon.png' %}" class="img-responsive" alt="" width="50" height="40"> 
 </td>
 {% endfor %}
 {% endif %}
@@ -56,25 +154,19 @@
 
 {% if pogon %}
 <td>
-{{ pogon.widownia__avg }}
-</td>
-{% endif %}
-
-{% if pogon_max %}
-<td>
-{{ pogon_max.widownia__max }}
+<div id="shiva"><span class="count">{{ pogon.widownia__avg }}</span></div>
 </td>
 {% endif %}
 
 {% if pogon_min %}
 <td>
-{{ pogon_min.widownia__min }}
+<div id="shiva"><span class="count">{{ pogon_min.widownia__min }}</span></div>
 </td>
 {% endif %}
 
 {% if pogon_sum %}
 <td>
-{{ pogon_sum.widownia__sum }}
+<div id="shiva"><span class="count">{{ pogon_sum.widownia__sum }}</span></div>
 </td>
 {% endif %}
 
@@ -84,7 +176,8 @@
 {% if klub_legia %}
 {% for instance in klub_legia %}
 <tr><td>
-{{ instance.Nazwa }}
+<strong>{{ instance.Nazwa }}</strong>
+<img src= "{% static 'img/legia.png' %}" class="img-responsive" alt="" width="50" height="40"> 
 </td>
 {% endfor %}
 {% endif %}
@@ -93,25 +186,19 @@
 
 {% if legia %}
 <td>
-{{ legia.widownia__avg }}
-</td>
-{% endif %}
-
-{% if legia_max %}
-<td>
-{{ legia_max.widownia__max }}
+<div id="shiva"><span class="count">{{ legia.widownia__avg }}</span></div>
 </td>
 {% endif %}
 
 {% if legia_min %}
 <td>
-{{ legia_min.widownia__min }}
+<div id="shiva"><span class="count">{{ legia_min.widownia__min }}</span></div>
 </td>
 {% endif %}
 
 {% if legia_sum %}
 <td>
-{{ legia_sum.widownia__sum }}
+<div id="shiva"><span class="count">{{ legia_sum.widownia__sum }}</span></div>
 </td>
 {% endif %}
 
@@ -125,7 +212,8 @@
 {% if klub_lech %}
 {% for instance in klub_lech %}
 <tr><td>
-{{ instance.Nazwa }}
+<strong>{{ instance.Nazwa }}</strong>
+<img src= "{% static 'img/lech.png' %}" class="img-responsive" alt="" width="50" height="40"> 
 </td>
 {% endfor %}
 {% endif %}
@@ -134,25 +222,19 @@
 
 {% if lech %}
 <td>
-{{ lech.widownia__avg }}
-</td>
-{% endif %}
-
-{% if lech_max %}
-<td>
-{{ lech_max.widownia__max }}
+<div id="shiva"><span class="count">{{ lech.widownia__avg }}</span></div>
 </td>
 {% endif %}
 
 {% if lech_min %}
 <td>
-{{ lech_min.widownia__min }}
+<div id="shiva"><span class="count">{{ lech_min.widownia__min }}</span></div>
 </td>
 {% endif %}
 
 {% if lech_sum %}
 <td>
-{{ lech_sum.widownia__sum }}
+<div id="shiva"><span class="count">{{ lech_sum.widownia__sum }}</span></div>
 </td>
 {% endif %}
 
@@ -166,7 +248,8 @@
 {% if klub_lechia %}
 {% for instance in klub_lechia %}
 <tr><td>
-{{ instance.Nazwa }}
+<strong>{{ instance.Nazwa }}</strong>
+<img src= "{% static 'img/lechia.png' %}" class="img-responsive" alt="" width="50" height="40"> 
 </td>
 {% endfor %}
 {% endif %}
@@ -175,67 +258,46 @@
 
 {% if lechia %}
 <td>
-{{ lechia.widownia__avg }}
-</td>
-{% endif %}
-
-{% if lechia_max %}
-<td>
-{{ lechia_max.widownia__max }}
+<div id="shiva"><span class="count">{{ lechia.widownia__avg }}</span></div>
 </td>
 {% endif %}
 
 {% if lechia_min %}
 <td>
-{{ lechia_min.widownia__min }}
+<div id="shiva"><span class="count">{{ lechia_min.widownia__min }}</span></div>
 </td>
 {% endif %}
 
 {% if lechia_sum %}
 <td>
-{{ lechia_sum.widownia__sum }}
+<div id="shiva"><span class="count">{{ lechia_sum.widownia__sum }}</span></div>
 </td>
 {% endif %}
-
-
-
-
-
-
-
-
-
-
-
-
-
- {% if queryset %}
- {% endif %}
-
-
-
-
+</table>
 
 </div>
+  </div>
+      </div>
+         </body>
 
 
-<!--
-<a href="../pogon/" type="button" class="btn btn-primary btn-lg ">Pogon Szczecin</a>
-<a href="../legia/" type="button" class="btn btn-primary btn-lg ">Legia Warszawa</a>
-<a href="../lech/" type="button" class="btn btn-primary btn-lg ">Lech Poznań</a>
-<a href="../lechia/" type="button" class="btn btn-primary btn-lg ">Lechia Gdańsk</a>
-<a href="../slask/" type="button" class="btn btn-primary btn-lg ">Śląsk Wrocław</a>
-<a href="../jagiellonia/" type="button" class="btn btn-primary btn-lg ">Jagiellonia Białystok</a>
-<a href="../wisla/" type="button" class="btn btn-primary btn-lg ">Wisła Kraków</a>
-<a href="../cracovia/" type="button" class="btn btn-primary btn-lg ">Cracovia Kraków</a>
-<a href="../gornik_zabrze/" type="button" class="btn btn-primary btn-lg ">Górnik Zabrze</a>
-<a href="../gornik_leczna/" type="button" class="btn btn-primary btn-lg ">Górnik Łęczna</a>
-<a href="../podbeskidzie/" type="button" class="btn btn-primary btn-lg ">Podbeskidzie Bielsko-Biała</a>
-<a href="../zaglebie/" type="button" class="btn btn-primary btn-lg ">Zagłebie Lubin</a>
-<a href="../piast/" type="button" class="btn btn-primary btn-lg ">Piast Gliwice</a>
-<a href="../ruch/" type="button" class="btn btn-primary btn-lg ">Ruch Chorzów</a>
-<a href="../termalika/" type="button" class="btn btn-primary btn-lg ">Termalika Nieciecza</a>
-<a href="../korona/" type="button" class="btn btn-primary btn-lg ">Korona Kielce</a> -->
+<script type="text/javascript">
+    
+
+    $('.count').each(function () {
+    $(this).prop('Counter',0).animate({
+        Counter: $(this).text()
+    }, {
+        duration: 4000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+});
+</script>
+
+
 
 </body>
 

@@ -27,14 +27,16 @@ h1 { text-align: center;
         {% endblock %}
       </style>  
 
+ {% block jumbotron_content %}
+
+
 
 
 
 <body>
- {% block jumbotron_content %}
 
 <div class="col-sm-12">
-<div class="margins" style=" margin-bottom: 200px;">
+
 <h1> <title>Ekstraklasa</title> </h1>
 
 
@@ -92,6 +94,12 @@ h1 { text-align: center;
 
 
 <div class="col-sm-12 col-sm-offset-3">
+
+<div class="margins" style=" margin-bottom: 200px;">
+</div>
+
+
+
 
 {% for obj in object_list %}
 <div class="margin" style=" margin-bottom: 70px;">
