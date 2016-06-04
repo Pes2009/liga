@@ -11,8 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 
-
-
 class Klub(models.Model):
 	Nazwa = models.CharField(max_length=50, blank=False, null=False, unique=True)
 	data_powstania = models.DateField(auto_now=False, auto_now_add=False,)
@@ -189,6 +187,7 @@ class Project(models.Model):
     title = models.CharField(max_length=150)
     url = models.URLField()
     manager = models.ForeignKey(settings.AUTH_USER_MODEL)
+    saldo = models.FloatField()
 
     def get_total_cost(self):
         tot = 0
@@ -200,3 +199,4 @@ class Cost(models.Model):
     project = models.ForeignKey(Project)
     cost = models.FloatField()
     date = models.DateField()
+

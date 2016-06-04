@@ -23,7 +23,6 @@
       <th>gole</th>
     </tr>
   </thead>
-  <body>
 
 <h3>Gole</h3>
 {% for instance in infos %}
@@ -44,14 +43,14 @@
   
 <h3>Asysty</h3>
 {% for instance in infos %}
-<tr><td>{{ forloop.counter }}  </td><td> {{instance.imie}} </td><td> {{instance.nazwisko}}</td><td>  {{instance.get_total_asysty}}</td></tr>
+<tr><td>{{ forloop.counter }}</td><td>{{instance.imie}}</td><td>{{instance.nazwisko}}</td><td>  {{instance.get_total_asysty}}</td></tr>
 {% endfor %}
 </table>
 
 
 </div>
 </div>
-
+  <body>
 
 {% endblock %}
 
