@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 
-from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post, Project,Cost
+from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post
 
 
 
@@ -49,14 +49,7 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ["title", "content"]
     class meta:
         model = Post
-class CostAdmin(admin.ModelAdmin):
 
-    model = Cost
-
-
-class ProjectAdmin(admin.ModelAdmin):
-
-    model = Project
 
 
 admin.site.register(Klub, KlubAdmin)
@@ -66,5 +59,3 @@ admin.site.register(Mecz, MeczAdmin)
 admin.site.register(Info_mecz, Info_meczAdmin)
 admin.site.register(Stadion, StadionAdmin)
 admin.site.register(Post, PostAdmin)
-admin.site.register(Cost, CostAdmin)
-admin.site.register(Project, ProjectAdmin)

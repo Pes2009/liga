@@ -8,6 +8,17 @@ from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
+class Clubs(models.Model):
+	nazwa = models.CharField(max_length=50)
+	data_powstania = models.DateField(auto_now=False, auto_now_add=False,)
+	punkty = models.IntegerField(blank=False,null=True,)
+	porazki = models.IntegerField(blank=False,null=True,)
+	zwyciestwa = models.IntegerField(blank=False,null=True,)
+	remisy = models.IntegerField(blank=False,null=True,)
+	image = models.FileField(null=True,blank=True)
+	barwy = models.CharField(max_length=50)
+	przydomek = models.CharField(max_length=50)
+	strona = models.URLField(max_length=200)
 
 
 
@@ -55,6 +66,7 @@ class Stadion(models.Model):
 	miasto = models.CharField(max_length=50,blank=False,null=False,)
 	ulica = models.CharField(max_length=50,blank=False,null=False,)
 	pojemnosc = models.IntegerField(blank=False,null=False,)
+	klubs = models.ForeignKey(Clubs)
 	klub = models.ForeignKey(Klub)
 
 
@@ -69,6 +81,7 @@ class Zawodnik(models.Model):
 	nazwisko = models.CharField(max_length=50, blank=False, null=False,)
 	pozycja = models.CharField(max_length=50, blank=False, null=True,)
 	data_urodzenia = models.DateField(auto_now=False, auto_now_add=False,)
+	klubs = models.ForeignKey(Clubs)
 	klub = models.ForeignKey(Klub)
 
 
@@ -98,6 +111,7 @@ class Zawodnik(models.Model):
 		return zwroc
 
 class Trener(models.Model):
+	klubs = models.ForeignKey(Clubs)
 	klub = models.ForeignKey(Klub)
 	imie = models.CharField(max_length=50, blank=False, null=False,)
 	nazwisko = models.CharField(max_length=50, blank=False, null=False,)
@@ -138,6 +152,9 @@ class Info_mecz(models.Model):
 
 def upload_location(instance, filename):
 	return "%s/%s" %(instance.id, filename)
+
+
+
 
 
 class Post(models.Model):
@@ -181,22 +198,3 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_post_receiver, sender=Post)
-
-
-class Project(models.Model):
-    title = models.CharField(max_length=150)
-    url = models.URLField()
-    manager = models.ForeignKey(settings.AUTH_USER_MODEL)
-    saldo = models.FloatField()
-
-    def get_total_cost(self):
-        tot = 0
-        for cost in Cost.objects.filter(project=self):
-            tot += cost.cost
-        return tot
-
-class Cost(models.Model):
-    project = models.ForeignKey(Project)
-    cost = models.FloatField()
-    date = models.DateField()
-

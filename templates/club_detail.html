@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+   {% block jumbotron_content %}
+
+    <style>
+      {% block style %}
+
+
+      .text-align-center{
+  text-align: center;
+  padding-top: 10px;
+}
+
+
+      {% endblock %}
+      </style>
+
+
+  <body>
+
+   <title>{{ instance.nazwa }}</title>
+
+<div class="container ">
+<div class="jumbotron">
+
+
+ <div class="row">     
+<div class="col-md-3">
+
+
+
+
+{% if instance.image %}
+<img src="{{ instance.image.url }}" class="img-responsive"  alt="" width="200" height="250">
+{% endif %}
+</div>
+
+<div class="row">     
+<div class="col-md-6">
+<div class="text-align-center">
+{% if ziomset %}
+ {% for instance in  ziomset %}
+<h2><strong>{{ instance.imie }}</strong></h2>
+{% endfor %}
+{% endif %}
+<h2><strong>{{ instance.przydomek }}</strong></h2>
+<h3><strong> {{ instance.Nazwa }}</strong></h3>
+<h3> Data założenia:<strong>{{ instance.data_powstania }}</strong></h3>
+<h3> Barwy:<strong> {{ instance.barwy }}</strong></h3>
+<h2>strona oficjalna:<strong> <a href="{{ instance.strona }}">{{ instance.Nazwa }}</a></strong></h2>
+ </div>
+</div>
+</div>
+
+
+<small>{{ instance.nazwa }}</small>   -  <small>{{ instance.punkty }}</small>
+<h2> {{ instance.trener }}</h2>
+
+
+{{ instance.data_powstania | linebreaks }}<br/>
+
+
+</div>
+{% endblock jumbotron_content %}
+
+</body>

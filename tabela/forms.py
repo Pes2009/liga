@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from .models import Klub, Post
+from .models import Klub, Post, Clubs
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
@@ -29,3 +29,19 @@ class PostForm(forms.ModelForm):
 			"publish",
 		]
 
+class ClubForm(forms.ModelForm):
+	class Meta:
+		model = Clubs
+
+		fields = [
+			"nazwa",
+			"data_powstania",
+			"punkty",
+			"porazki",
+			"zwyciestwa",
+			"remisy",
+			"image",
+			"barwy",
+			"przydomek",
+			"strona",
+		]
