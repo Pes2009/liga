@@ -8,73 +8,45 @@ from django.db.models import Sum, Avg, Count, Min, Max
 from .forms import KlubForm, PostForm, ClubForm
 from .models import Klub, Zawodnik, Trener, Mecz, Info_mecz, Stadion, Post, Clubs
 
-
-def homes(request):
-
-
-
-	return render(request, "canvas.html")
-
-
 # Create your views here.
 def home(request):
 
-	queryset = Mecz.objects.order_by('-widownia')
-	pogon = Mecz.objects.filter(stadion_nr=2).aggregate(Avg('widownia'))
-	pogon_max = Mecz.objects.filter(stadion_nr=2).aggregate(Max('widownia'))
-	pogon_min = Mecz.objects.filter(stadion_nr=2).aggregate(Min('widownia'))
-	pogon_sum = Mecz.objects.filter(stadion_nr=2).aggregate(Sum('widownia'))
 
-	legia = Mecz.objects.filter(stadion_nr=1).aggregate(Avg('widownia'))
-	legia_max = Mecz.objects.filter(stadion_nr=1).aggregate(Max('widownia'))
-	legia_min = Mecz.objects.filter(stadion_nr=1).aggregate(Min('widownia'))
-	legia_sum = Mecz.objects.filter(stadion_nr=1).aggregate(Sum('widownia'))
+	def get_objs(var, stadion_number, aggregate_func):
+		z = Mecz.objects.filter(stadion_nr=stadion_number).aggregate(aggregate_func(var))
+		return z
 
-	lech = Mecz.objects.filter(stadion_nr=5).aggregate(Avg('widownia'))
-	lech_max = Mecz.objects.filter(stadion_nr=5).aggregate(Max('widownia'))
-	lech_min = Mecz.objects.filter(stadion_nr=5).aggregate(Min('widownia'))
-	lech_sum = Mecz.objects.filter(stadion_nr=5).aggregate(Sum('widownia'))
-
-	lechia = Mecz.objects.filter(stadion_nr=8).aggregate(Avg('widownia'))
-	lechia_max = Mecz.objects.filter(stadion_nr=8).aggregate(Max('widownia'))
-	lechia_min = Mecz.objects.filter(stadion_nr=8).aggregate(Min('widownia'))
-	lechia_sum = Mecz.objects.filter(stadion_nr=8).aggregate(Sum('widownia'))
-
-
-	klub_pogon = Klub.objects.filter(Nazwa='Pogon Szczecin')
-	klub_legia = Klub.objects.filter(Nazwa='Legia Warszawa')
-	klub_lech = Klub.objects.filter(Nazwa='Lech Poznań')
-	klub_lechia = Klub.objects.filter(Nazwa='Lechia Gdańsk')
-
+	def get_nazwa(nazwa):
+		z = Klub.objects.filter(Nazwa=nazwa)
+		return z
 
 
 	context = { 
-	"pogon":pogon,
-	"pogon_max":pogon_max,
-	"pogon_min":pogon_min,
-	"pogon_sum":pogon_sum,
+	"pogon":get_objs('widownia',2,aggregate_func=Avg),
+	"pogon_max":get_objs('widownia',2,aggregate_func=Max),
+	"pogon_min":get_objs('widownia',2,aggregate_func=Min),
+	"pogon_sum":get_objs('widownia',2,aggregate_func=Sum),
 
-	"legia":legia,
-	"legia_max":legia_max,
-	"legia_min":legia_min,
-	"legia_sum":legia_sum,
+	"legia":get_objs('widownia',1,aggregate_func=Avg),
+	"legia_max":get_objs('widownia',1,aggregate_func=Max),
+	"legia_min":get_objs('widownia',1,aggregate_func=Min),
+	"legia_sum":get_objs('widownia',1,aggregate_func=Sum),
 
-	"lech":lech,
-	"lech_max":lech_max,
-	"lech_min":lech_min,
-	"lech_sum":lech_sum,
+	"lech":get_objs('widownia',5,aggregate_func=Avg),
+	"lech_max":get_objs('widownia',5,aggregate_func=Max),
+	"lech_min":get_objs('widownia',5,aggregate_func=Min),
+	"lech_sum":get_objs('widownia',5,aggregate_func=Sum),
 
-	"lechia":lechia,
-	"lechia_max":lechia_max,
-	"lechia_min":lechia_min,
-	"lechia_sum":lechia_sum,
+	"lechia":get_objs('widownia',8,aggregate_func=Avg),
+	"lechia_max":get_objs('widownia',8,aggregate_func=Max),
+	"lechia_min":get_objs('widownia',8,aggregate_func=Min),
+	"lechia_sum":get_objs('widownia',8,aggregate_func=Sum),
 
 
-	"queryset":queryset,
-	"klub_pogon":klub_pogon,
-	"klub_legia":klub_legia,
-	"klub_lech":klub_lech,
-	"klub_lechia":klub_lechia
+	"klub_pogon":get_nazwa(nazwa='Pogon Szczecin'),
+	"klub_legia":get_nazwa(nazwa='Legia Warszawa'),
+	"klub_lech":get_nazwa(nazwa='Lech Poznań'),
+	"klub_lechia":get_nazwa(nazwa='Lechia Gdańsk'),
 
 	}
 
